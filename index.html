@@ -119,6 +119,15 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 .slide-inner.roman-road-bg .s-body,
 .slide-inner.roman-road-bg .s-footer { position: relative; z-index: 2; }
 
+/* Roman Road compact cards — stacked left, fit to text */
+.roman-road-cards { display: flex; flex-direction: column; gap: 0.8rem; max-width: 420px; flex-shrink: 0; margin: 1.5vh 0; }
+.roman-card {
+  padding: 0.9rem 1.2rem; border-radius: 10px; font-size: clamp(0.95rem, 1.2vw, 1.1rem); line-height: 1.55;
+  border-left: 4px solid var(--navy);
+}
+.roman-card-1st { background: rgba(255,255,255,0.95); color: var(--navy); box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+.roman-card-21st { background: var(--gold-light); border-left-color: var(--gold); color: var(--navy); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
 /* BODY — full-height layout, balanced vertical spacing */
 .s-body {
   flex: 1; min-height: 0; padding: 3.5vh 4.5vw 2.5vh; display: flex; flex-direction: column;
@@ -288,9 +297,10 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 
 /* ═══════ TOOL SHOWCASE GRID ═══════ */
 .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 2vh 0; flex: 1; min-height: 0; }
-.tool-grid-expand { gap: 1.5rem; margin: 2.5vh 0; }
-.tool-grid-expand .tool-card-img { height: 160px; }
-.tool-grid-expand .tool-card-body { padding: 1.3rem 1.4rem; }
+.tool-grid-expand { gap: 1.5rem; margin: 2.5vh 0; grid-auto-rows: 1fr; }
+.tool-grid-expand .tool-card { display: flex; flex-direction: column; min-height: 0; }
+.tool-grid-expand .tool-card-img { height: 160px; flex-shrink: 0; }
+.tool-grid-expand .tool-card-body { padding: 1.3rem 1.4rem; flex: 1; }
 .tool-card {
   background: var(--white); border-radius: 12px; overflow: hidden;
   border: 1px solid rgba(0,0,0,0.05); cursor: pointer;
@@ -722,23 +732,36 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   <div class="slide-inner cream roman-road-bg">
     <div class="s-body" style="justify-content:flex-start;padding-top:4vh">
       <h2 class="s-title lg anim fade-up d1">AI Is the New <span class="gold">Roman Road</span></h2>
-      <div class="two-cols">
-        <div class="callout anim fade-left d2">
+      <div class="roman-road-cards anim fade-up d2">
+        <div class="roman-card roman-card-1st">
           <strong>1st Century:</strong> Roman roads were built by a secular empire for commerce and military conquest. The early Church leveraged this infrastructure to spread the gospel to the ends of the earth.
         </div>
-        <div class="callout gold anim fade-right d3">
+        <div class="roman-card roman-card-21st">
           <strong>21st Century:</strong> AI infrastructure was built by tech conglomerates for data and profit. The modern Church can walk these digital roads carrying the message of Christ to unreached people.
         </div>
-      </div>
-      <div class="anim fade-up d4" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 3vw">
-        <div class="testimony-qmark" style="opacity:0.3;font-size:4.5rem">&ldquo;</div>
-        <div style="font-size:clamp(1.5rem,2.8vw,2.4rem);font-style:italic;line-height:1.55;color:var(--navy);max-width:880px;margin:0.6rem 0">The infrastructure is already laid. The question isn&rsquo;t whether the roads exist. The question is who&rsquo;s going to walk on them and what message they&rsquo;re going to carry.</div>
       </div>
       <div class="callout green anim fade-up d5" style="font-family:'Montserrat',sans-serif;font-size:clamp(1.05rem,1.3vw,1.2rem);font-weight:600;text-align:center;margin-top:auto;flex-shrink:0">
         Key Principle: <strong>AI-Enhanced, Not AI-Dependent</strong> &mdash; Think of AI as a capable seminary intern. &mdash; Kenny Jahng, NAE
       </div>
     </div>
     <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: NAE / Kenny Jahng</span></div>
+  </div>
+</div>
+
+<!-- S4b: ROMAN ROAD QUOTE (full slide) -->
+<div class="slide">
+  <div style="position:relative;width:100%;height:100%;display:flex;flex-direction:column">
+    <div class="testimony-slide" style="flex:1;min-height:0">
+      <div class="testimony-bg" style="background-image:url('https://images.unsplash.com/photo-1709912151904-3e849b7850a6?w=1920&auto=format&fit=crop&q=85')"></div>
+      <div class="testimony-overlay"></div>
+      <div class="testimony-content">
+        <div class="testimony-qmark anim scale-up d1">&ldquo;</div>
+        <div class="testimony-quote anim fade-up d2">The infrastructure is already laid. The question isn&rsquo;t whether the roads exist. The question is who&rsquo;s going to walk on them and what message they&rsquo;re going to carry.</div>
+        <div class="s-div anim fade-up d3" style="margin:1rem auto"></div>
+        <div class="testimony-cite anim fade-up d4">&mdash; Kenny Jahng, NAE</div>
+      </div>
+    </div>
+    <div class="s-footer" style="background:rgba(0,0,0,0.3);border-top-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)"><span>Nathaniel Baldock</span><span>Source: NAE / Kenny Jahng</span></div>
   </div>
 </div>
 
@@ -918,18 +941,8 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
         <div class="insight-item anim fade-up d4" data-modal="faithbridge"><div class="insight-num">FB</div><div><div class="insight-title">Faithbridge</div><div class="insight-body">AI Bible Q&amp;A for translators in 80 languages via audio &amp; text</div></div></div>
         <div class="insight-item anim fade-up d5" data-modal="aero"><div class="insight-num warm-bg">AE</div><div><div class="insight-title">AERO</div><div class="insight-body">AI for oral cultures: noise removal, voice change, key term detection in audio</div></div></div>
       </div>
-      <div class="callout gold anim fade-up d6" style="font-family:'Montserrat',sans-serif;font-size:clamp(1rem,1.25vw,1.15rem);text-align:center">
+      <div class="callout gold anim fade-up d6" data-modal="ai_sil_org" style="font-family:'Montserrat',sans-serif;font-size:clamp(1rem,1.25vw,1.15rem);text-align:center;cursor:pointer;margin-top:0.5rem">
         300+ minority language models &middot; Two-thirds of the world&rsquo;s population are oral learners &middot; <strong>ai.sil.org</strong>
-      </div>
-      <div class="anim fade-up d7" style="max-width:500px;margin:0 auto">
-        <div class="video-card stat-card anim fade-up d7" data-video="VIMEO_1063711566">
-          <div class="video-card-thumb"><img src="https://vumbnail.com/1063711566.jpg" alt="Seed Company"></div>
-          <div class="video-card-body">
-            <div class="video-card-title">How Bible Translation Works (Seed Company)</div>
-            <div class="video-card-summary">See how AI and community work together in Bible translation.</div>
-            <div class="click-hint">Click to play</div>
-          </div>
-        </div>
       </div>
     </div>
     <div class="s-footer"><span>Nathaniel Baldock</span><span>Source: SIL AI & NLP (ai.sil.org)</span></div>
@@ -1599,6 +1612,7 @@ const MD = {
   pillar_privacy:{stat:"🔒",title:"AI Policy Pillar: Data Privacy",body:"Never paste sensitive pastoral data (counseling notes, prayer requests, financial struggles) into public AI tools like ChatGPT or Gemini.\n\nCompartmentalize confidential information. Use RAG-powered tools with your own content only.\n\nEstablish clear guidelines about what data can and cannot enter AI systems.",source:"Jason Hamrock / The Church Network",link:"https://thechurchnetwork.com"},
   pillar_bias:{stat:"⚠️",title:"AI Policy Pillar: Bias Awareness",body:"Public AI models are trained on the open internet, which means they inherently carry the cultural, political, and theological biases of the internet.\n\nThey are not neutral arbiters of truth.\n\nChurch leaders must understand that AI outputs reflect the data it was trained on — not divine revelation.",source:"Multiple sources",link:""},
   pillar_transparency:{stat:"👁",title:"AI Policy Pillar: Transparency",body:"Churches need to be intellectually honest with their congregations about when and how they're using AI assistance in content creation.\n\nThe unwritten contract of authenticity matters. People trust they're hearing their pastor's heart, not a machine's output.\n\nFull disclosure builds trust. Hidden use erodes it.",source:"NAE / Kenny Jahng; Carey Nieuwhof",link:"https://www.nae.org/ai-church-role-kenny-jahng/"},
+  ai_sil_org:{stat:"ai.sil.org",title:"SIL AI & NLP — AI for Minority Languages",body:"SIL is a global, faith-based nonprofit that partners with language communities to develop AI and Natural Language Processing solutions for Bible translation and minority language flourishing.\n\nTheir vision: People flourishing in community as the benefits of AI extend to local language speakers desiring to engage in the digital sphere.\n\nKey projects include Scripture Forge, AQuA, Faithbridge, AERO, Lynx, and more — with 300+ minority language models. Two-thirds of the world's population (~4.7 billion) are oral learners who prefer listening to reading.",source:"SIL AI & NLP",link:"https://ai.sil.org"},
   tools_translation:{stat:"🌍",title:"Bible Translation AI Tools",body:"Scripture Forge — AI-assisted team-based translation (ai.sil.org)\nAQuA — Augmented Quality Assessment\nFaithbridge — AI Bible Q&A for translators in 80 languages\nAERO — AI for oral cultures\nLynx — AI woven into translation editing software\n\nAll donation-supported through SIL.",source:"SIL AI & NLP",link:"https://ai.sil.org/projects"},
   tools_evangelism:{stat:"📢",title:"Evangelism AI Tools",body:"Apologist.ai — Worldview-specific chatbots (Free)\nGloo CALLM — Christian-Aligned LLM\nCru taxonomy — AI auto-tagging for spiritual journey mapping\nVisitorReach — AI-powered church outreach ($varies)",source:"Multiple sources",link:"https://apologistproject.org"},
   tools_sermon:{stat:"📖",title:"Sermon Preparation AI Tools",body:"Logos AI — Smart Search, Summarize, Sermon Assistant ($9.99/mo+)\nMinistry Automation — Pre-built AI agents for pastors ($997/yr)\nBibley.io — AI Bible study companion ($5/mo)\nNotebookLM — Google's free AI for document synthesis\nChurch.tech — Toolbelt for sermons ($100/mo Pro)",source:"Multiple sources",link:"https://logos.com"},
