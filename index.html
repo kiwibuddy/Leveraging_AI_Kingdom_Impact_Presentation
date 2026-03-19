@@ -460,15 +460,15 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
 }
 #intro-video-overlay.open { opacity: 1; visibility: visible; }
-#intro-video-overlay iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#intro-video-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+#intro-video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 #intro-skip-btn {
   position: fixed; bottom: 2rem; right: 2rem; z-index: 99999;
   padding: 0.6rem 1.5rem; border-radius: 8px; border: 2px solid rgba(255,255,255,0.4);
   background: rgba(0,0,0,0.5); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700;
-  cursor: pointer; transition: opacity 0.4s, visibility 0.4s, background 0.2s, border-color 0.2s;
-  opacity: 0; visibility: hidden;
+  cursor: pointer; transition: background 0.2s, border-color 0.2s;
+  opacity: 1; visibility: visible;
 }
-#intro-video-overlay.skip-visible #intro-skip-btn { opacity: 1; visibility: visible; }
 #intro-skip-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); color: var(--gold); }
 
 /* SLIDE VIDEO OVERLAY (fullscreen when opening a specific slide) */
@@ -555,7 +555,7 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 
 <!-- INTRO VIDEO OVERLAY (fullscreen, from play button) -->
 <div id="intro-video-overlay">
-  <iframe id="intro-video-frame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <div id="intro-video-player"></div>
   <button type="button" id="intro-skip-btn">Skip</button>
 </div>
 
@@ -1675,42 +1675,59 @@ document.getElementById('next-btn').addEventListener('click',()=>go(cur+1));
 document.getElementById('prev-btn').addEventListener('click',()=>go(cur-1));
 
 // ═══════ INTRO VIDEO (play button → fullscreen video → skip → presentation) ═══════
-const INTRO_VIDEO_ID = '14qpG3jvBjs';
-const INTRO_EMBED = 'https://www.youtube.com/embed/' + INTRO_VIDEO_ID + '?autoplay=1&rel=0';
-let introSkipHideTimer = null;
+const INTRO_VIDEO_ID = 'CLW-9lbvSEw';
+var introVideoPlayer = null;
+var introVideoDone = false;
 
 function playIntroVideo(){
   document.getElementById('play-overlay').classList.add('hidden');
   var overlay = document.getElementById('intro-video-overlay');
-  var frame = document.getElementById('intro-video-frame');
-  frame.src = INTRO_EMBED;
+  var playerRoot = document.getElementById('intro-video-player');
+  introVideoDone = false;
   overlay.classList.add('open');
-  overlay.classList.remove('skip-visible');
   var el = document.documentElement;
   if(el.requestFullscreen) el.requestFullscreen().catch(function(){});
   else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  setTimeout(function(){ overlay.classList.add('skip-visible'); setTimeout(function(){ overlay.classList.remove('skip-visible'); }, 2000); }, 400);
-  function showSkip(){
-    overlay.classList.add('skip-visible');
-    if(introSkipHideTimer) clearTimeout(introSkipHideTimer);
-    introSkipHideTimer = setTimeout(function(){ overlay.classList.remove('skip-visible'); introSkipHideTimer = null; }, 2500);
-  }
   function onIntroDone(){
-    frame.src = '';
+    if(introVideoDone) return;
+    introVideoDone = true;
+    if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+    playerRoot.innerHTML = '';
     overlay.classList.remove('open');
-    overlay.classList.remove('skip-visible');
-    document.removeEventListener('mousemove', showSkip);
-    if(introSkipHideTimer){ clearTimeout(introSkipHideTimer); introSkipHideTimer = null; }
     startPres();
   }
-  document.addEventListener('mousemove', showSkip);
   document.getElementById('intro-skip-btn').onclick = onIntroDone;
+
+  function createIntroPlayer(){
+    if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+    playerRoot.innerHTML = '';
+    introVideoPlayer = new YT.Player('intro-video-player', {
+      videoId: INTRO_VIDEO_ID,
+      playerVars: { autoplay: 1, rel: 0 },
+      events: {
+        onStateChange: function(e){
+          if(e.data === YT.PlayerState.ENDED) onIntroDone();
+        }
+      }
+    });
+  }
+  if (window.YT && window.YT.Player) {
+    createIntroPlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = function(){ createIntroPlayer(); };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      var s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  }
 }
 
 function startPres(){
   document.getElementById('play-overlay').classList.add('hidden');
   document.getElementById('intro-video-overlay').classList.remove('open');
-  document.getElementById('intro-video-frame').src = '';
+  if (introVideoPlayer && introVideoPlayer.destroy) { try { introVideoPlayer.destroy(); } catch(e){} introVideoPlayer = null; }
+  document.getElementById('intro-video-player').innerHTML = '';
   started=true;
   ['nav-bar','slide-counter','prev-btn','next-btn'].forEach(id=>document.getElementById(id).classList.add('visible'));
   setTimeout(()=>{slides[0].querySelectorAll('.anim').forEach(e=>e.classList.add('in'))},300);
