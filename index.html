@@ -162,6 +162,12 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 
 /* BARS */
 .bar-chart-h { display: flex; flex-direction: column; gap: 1vh; margin: 1.5vh 0; }
+/* Translation progress chart bars – give bar columns a height so % resolves */
+#chart-diminishing, #chart-acceleration { min-height: 200px; }
+#dim-bars, #acc-bars { align-items: stretch; min-height: 160px; }
+#dim-bars > div, #acc-bars > div { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.chart-bar-wrapper, .chart-bar-up-wrapper { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.chart-bar, .chart-bar-up { min-height: 4px; }
 .hbar { display: flex; align-items: center; gap: 1vw; cursor: pointer; }
 .hbar-label { font-family: 'Montserrat', sans-serif; font-size: clamp(0.65rem, 0.9vw, 0.85rem); font-weight: 600; color: var(--txt); min-width: 140px; text-align: right; }
 .hbar-track { flex: 1; height: clamp(26px, 3.5vh, 38px); background: rgba(0,0,0,0.04); border-radius: 19px; overflow: hidden; }
@@ -285,6 +291,25 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 .video-trigger.light { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.1); color: var(--navy); }
 .video-trigger.light:hover { background: rgba(0,0,0,0.08); border-color: var(--gold); }
 
+/* Co-Pilot slide: 2 columns, 9:16 video left */
+.copilot-cols { display: flex; gap: 2rem; align-items: stretch; margin: 1vh 0; min-height: 0; }
+.copilot-video-col { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.video-thumb-9x16 {
+  aspect-ratio: 9/16; max-height: 55vh; width: auto; border-radius: 14px; overflow: hidden;
+  background: var(--cream-dark); box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  cursor: pointer; position: relative; transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+.video-thumb-9x16:hover { transform: scale(1.02); box-shadow: 0 12px 40px rgba(0,0,0,0.18); }
+.video-thumb-9x16 img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-thumb-9x16::after {
+  content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath fill='%23fff' fill-opacity='0.9' d='M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z'/%3E%3C/svg%3E") center/28% no-repeat; pointer-events: none;
+}
+.copilot-content-col { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+@media (max-width: 900px) {
+  .copilot-cols { flex-direction: column; align-items: center; }
+  .video-thumb-9x16 { max-height: 40vh; }
+}
+
 /* BENTO GRID & VIDEO CARDS (like Ai and Discipleship) */
 .bento-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5vh 0; width: 100%; max-width: 900px; }
 .bento-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5vh 0; width: 100%; max-width: 1000px; }
@@ -311,6 +336,29 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 .video-card-large .video-card-title { font-size: clamp(0.9rem, 1.2vw, 1.1rem); }
 .video-card-large .video-card-summary { font-size: clamp(0.75rem, 1vw, 0.9rem); }
 @media (max-width:900px) { .bento-grid, .bento-grid-3 { grid-template-columns: 1fr; } }
+
+/* Video hero slide: 90% window thumbnail + centered play (play on click only) */
+.video-hero-slide .s-body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2vh 2vw; }
+.video-hero-thumb {
+  width: min(90vw, calc(90vh * 16 / 9)); aspect-ratio: 16/9;
+  position: relative; border-radius: 14px; overflow: hidden; background: #0a0a0a; cursor: pointer;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25); transition: transform 0.3s var(--ease), box-shadow 0.3s;
+}
+.video-hero-thumb:hover { transform: scale(1.02); box-shadow: 0 16px 56px rgba(0,0,0,0.35); }
+.video-hero-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.video-hero-thumb .play-btn-center {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 80px; height: 80px; border-radius: 50%; background: rgba(212,168,67,0.95); border: 4px solid rgba(255,255,255,0.9);
+  display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  transition: background 0.2s, transform 0.2s; pointer-events: none;
+}
+.video-hero-thumb:hover .play-btn-center { background: var(--gold); transform: translate(-50%, -50%) scale(1.08); }
+.video-hero-thumb .play-btn-center svg { width: 28px; height: 28px; fill: var(--dark); margin-left: 4px; }
+@media (max-width:900px) {
+  .video-hero-thumb { width: min(92vw, calc(90vh * 16 / 9)); }
+  .video-hero-thumb .play-btn-center { width: 64px; height: 64px; }
+  .video-hero-thumb .play-btn-center svg { width: 22px; height: 22px; }
+}
 
 /* Contact Me slide */
 .contact-slide-layout {
@@ -405,6 +453,41 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 #modal-link a { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--teal); text-decoration: none; padding: 0.4rem 0.8rem; border: 1px solid var(--teal); border-radius: 6px; display: inline-block; transition: background 0.2s, color 0.2s; }
 #modal-link a:hover { background: var(--teal); color: var(--white); }
 
+/* INTRO VIDEO OVERLAY (fullscreen from play button) */
+#intro-video-overlay {
+  position: fixed; inset: 0; z-index: 99998; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+}
+#intro-video-overlay.open { opacity: 1; visibility: visible; }
+#intro-video-overlay iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#intro-skip-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 99999;
+  padding: 0.6rem 1.5rem; border-radius: 8px; border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5); color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: opacity 0.4s, visibility 0.4s, background 0.2s, border-color 0.2s;
+  opacity: 0; visibility: hidden;
+}
+#intro-video-overlay.skip-visible #intro-skip-btn { opacity: 1; visibility: visible; }
+#intro-skip-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); color: var(--gold); }
+
+/* SLIDE VIDEO OVERLAY (fullscreen when opening a specific slide) */
+#slide-video-overlay {
+  position: fixed; inset: 0; z-index: 99997; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s;
+}
+#slide-video-overlay.open { opacity: 1; visibility: visible; }
+#slide-video-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+#slide-video-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+#slide-video-close {
+  position: fixed; top: 1.5rem; right: 2rem; z-index: 99999;
+  width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.5); color: var(--white); font-size: 1.5rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s;
+}
+#slide-video-close:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); }
+
 /* VIDEO MODAL */
 #video-overlay {
   position: fixed; inset: 0; z-index: 99995; background: rgba(0,0,0,0.92);
@@ -470,6 +553,12 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 </head>
 <body>
 
+<!-- INTRO VIDEO OVERLAY (fullscreen, from play button) -->
+<div id="intro-video-overlay">
+  <iframe id="intro-video-frame" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <button type="button" id="intro-skip-btn">Skip</button>
+</div>
+
 <!-- PLAY OVERLAY -->
 <div id="play-overlay">
   <img src="assets/NB_Monogram.png" alt="Nathaniel Baldock" class="play-logo">
@@ -503,6 +592,11 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   <iframe id="video-frame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 </div>
 
+<div id="slide-video-overlay">
+  <div id="slide-video-player"></div>
+  <button type="button" id="slide-video-close" title="Close">&times;</button>
+</div>
+
 <!-- ============ SLIDES ============ -->
 <div id="deck">
 
@@ -512,7 +606,6 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
     <div class="particles" id="hero-particles"></div>
     <div class="s-body centered">
       <img src="assets/NB_Monogram.png" alt="Nathaniel Baldock" class="anim fade-up d1" style="width:64px;height:64px;border-radius:50%;object-fit:contain;margin-bottom:0.5rem">
-      <img src="assets/NB_Logo.png" alt="Nathaniel Baldock AI Consulting" class="anim fade-up d1 title-logo" loading="lazy">
       <div class="eyebrow anim fade-up d1">Being Fully Human in an AI World</div>
       <h1 class="s-title xl anim fade-up d2" style="color:var(--white)">Leveraging AI for<br><span class="shimmer-text" style="font-size:inherit">Kingdom Impact</span></h1>
       <p class="s-sub anim fade-up d3">Evangelism &middot; Discipleship &middot; Church Growth</p>
@@ -667,38 +760,38 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
             <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(0.9rem,1.5vw,1.2rem);color:var(--white)">Diminishing <span style="color:var(--gold)">Translation Task</span></h3>
           </div>
           <div id="chart-diminishing" data-modal="vision2025_detail" style="cursor:pointer;flex:1;min-height:0;border-radius:12px;overflow:hidden;background:#0C1520;border:1px solid rgba(255,255,255,0.08);padding:1rem;position:relative;display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
+            <div class="chart-hint" style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
             <!-- Animated bars -->
-            <div style="display:flex;align-items:flex-end;gap:4%;height:85%;padding-top:1rem" id="dim-bars">
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,990</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1)" data-h="100%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2020</div>
+            <div style="display:flex;align-items:stretch;gap:4%;height:85%;padding-top:1rem" id="dim-bars">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,990</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1)" data-h="100%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2020</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,904</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.15s" data-h="96%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2021</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,904</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.15s" data-h="96%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2021</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,612</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.3s" data-h="81%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2022</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,612</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.3s" data-h="81%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2022</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,336</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.45s" data-h="67%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2023</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,336</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.45s" data-h="67%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2023</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#E8834A">833</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#E8834A,#D94F3C);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.6s" data-h="42%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2024</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#E8834A;flex-shrink:0">833</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,#E8834A,#D94F3C);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.6s" data-h="42%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2024</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:900;color:var(--gold)">541</div>
-                <div class="chart-bar" style="width:100%;background:linear-gradient(180deg,var(--gold),#D94F3C);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.75s" data-h="27%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);font-weight:700">2025</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:900;color:var(--gold);flex-shrink:0">541</div>
+                <div class="chart-bar-wrapper"><div class="chart-bar" style="width:100%;background:linear-gradient(180deg,var(--gold),#D94F3C);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.75s" data-h="27%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);font-weight:700;flex-shrink:0">2025</div>
               </div>
             </div>
           </div>
@@ -710,43 +803,43 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
             <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(0.9rem,1.5vw,1.2rem);color:var(--white)"><span style="color:var(--gold)">Acceleration</span></h3>
           </div>
           <div id="chart-acceleration" data-modal="acceleration_detail" style="cursor:pointer;flex:1;min-height:0;border-radius:12px;overflow:hidden;background:#0C1520;border:1px solid rgba(255,255,255,0.08);padding:1rem;position:relative;display:flex;flex-direction:column;justify-content:flex-end">
-            <div style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
+            <div class="chart-hint" style="position:absolute;top:0.5rem;left:1rem;font-family:'Montserrat',sans-serif;font-size:0.6rem;color:rgba(255,255,255,0.2)">CLICK FOR DETAILS</div>
             <!-- Animated bars -->
-            <div style="display:flex;align-items:flex-end;gap:3%;height:85%;padding-top:1rem" id="acc-bars">
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">547</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1)" data-h="18%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2020</div>
+            <div style="display:flex;align-items:stretch;gap:3%;height:85%;padding-top:1rem" id="acc-bars">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">547</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1)" data-h="18%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2020</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">698</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.15s" data-h="23%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2021</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">698</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.15s" data-h="23%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2021</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,121</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.3s" data-h="37%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2022</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,121</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.3s" data-h="37%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2022</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">1,596</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.45s" data-h="53%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2023</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">1,596</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.45s" data-h="53%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2023</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0">2,100</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.6s" data-h="70%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4)">2024</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:800;color:#2BA8A0;flex-shrink:0">2,100</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,#2BA8A0,#1B5E7B);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.6s" data-h="70%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.4);flex-shrink:0">2024</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:900;color:var(--gold)">2,900</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,var(--gold),#E8834A);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.75s" data-h="97%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);font-weight:700">2025</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.8vw,0.7rem);font-weight:900;color:var(--gold);flex-shrink:0">2,900</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,var(--gold),#E8834A);border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.75s" data-h="97%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.6);font-weight:700;flex-shrink:0">2025</div>
               </div>
-              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem">
-                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.7vw,0.6rem);font-weight:700;color:rgba(43,168,160,0.5)">3,000*</div>
-                <div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,rgba(43,168,160,0.3),rgba(27,94,123,0.3));border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.9s;border:1px dashed rgba(43,168,160,0.3)" data-h="100%"></div>
-                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.25)">2026*</div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:0.3rem;min-height:0">
+                <div style="font-family:'Montserrat',sans-serif;font-size:clamp(0.5rem,0.7vw,0.6rem);font-weight:700;color:rgba(43,168,160,0.5);flex-shrink:0">3,000*</div>
+                <div class="chart-bar-up-wrapper"><div class="chart-bar-up" style="width:100%;background:linear-gradient(180deg,rgba(43,168,160,0.3),rgba(27,94,123,0.3));border-radius:4px 4px 0 0;height:0%;transition:height 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.9s;border:1px dashed rgba(43,168,160,0.3)" data-h="100%"></div></div>
+                <div style="font-family:'Montserrat',sans-serif;font-size:0.5rem;color:rgba(255,255,255,0.25);flex-shrink:0">2026*</div>
               </div>
             </div>
           </div>
@@ -760,18 +853,27 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   </div>
 </div>
 
-<!-- S8: CO-PILOT PROCESS -->
+<!-- S8: CO-PILOT PROCESS (S9 in deck) -->
 <div class="slide">
   <div class="slide-inner cream">
     <div class="s-body top">
       <h2 class="s-title lg anim fade-up d1">AI as <span class="gold">Co-Pilot</span>, Not Replacement</h2>
-      <div class="insight-list">
-        <div class="insight-item anim fade-left d2"><div class="insight-num gold-bg">1</div><div><div class="insight-title">AI Generates Draft</div><div class="insight-body">Trained on high-resource languages, AI generates an 80% rough draft ensuring key term consistency across thousands of verses.</div></div></div>
-        <div class="insight-item anim fade-right d3"><div class="insight-num teal-bg">2</div><div><div class="insight-title">Humans Refine</div><div class="insight-body">Indigenous translators review for cultural nuance, emotional resonance, and theological accuracy. They provide the &ldquo;friction&rdquo; the AI cannot.</div></div></div>
-        <div class="insight-item anim fade-left d4"><div class="insight-num">3</div><div><div class="insight-title">Community Checks</div><div class="insight-body">&ldquo;People in the community are accepting the text, and our team&rsquo;s confidence is increasing.&rdquo; &mdash; Seed Company</div></div></div>
-      </div>
-      <div class="callout anim fade-up d5">
-        <strong>The OMF Principle:</strong> An algorithm doesn&rsquo;t have a soul. It has never experienced grace. True cultural engagement requires empathy, respect, and a willingness to listen to people&rsquo;s lived stories.
+      <div class="copilot-cols">
+        <div class="copilot-video-col anim fade-up d2">
+          <div class="video-thumb-9x16" data-video="SR2NzXl0C08" role="button" tabindex="0" title="Play video">
+            <img src="https://img.youtube.com/vi/SR2NzXl0C08/hqdefault.jpg" alt="Co-Pilot video" loading="lazy">
+          </div>
+        </div>
+        <div class="copilot-content-col">
+          <div class="insight-list">
+            <div class="insight-item anim fade-left d2"><div class="insight-num gold-bg">1</div><div><div class="insight-title">AI Generates Draft</div><div class="insight-body">Trained on high-resource languages, AI generates an 80% rough draft ensuring key term consistency across thousands of verses.</div></div></div>
+            <div class="insight-item anim fade-right d3"><div class="insight-num teal-bg">2</div><div><div class="insight-title">Humans Refine</div><div class="insight-body">Indigenous translators review for cultural nuance, emotional resonance, and theological accuracy. They provide the &ldquo;friction&rdquo; the AI cannot.</div></div></div>
+            <div class="insight-item anim fade-left d4"><div class="insight-num">3</div><div><div class="insight-title">Community Checks</div><div class="insight-body">&ldquo;People in the community are accepting the text, and our team&rsquo;s confidence is increasing.&rdquo; &mdash; Seed Company</div></div></div>
+          </div>
+          <div class="callout anim fade-up d5">
+            <strong>The OMF Principle:</strong> An algorithm doesn&rsquo;t have a soul. It has never experienced grace. True cultural engagement requires empathy, respect, and a willingness to listen to people&rsquo;s lived stories.
+          </div>
+        </div>
       </div>
     </div>
     <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Seed Company; OMF; SIL</span></div>
@@ -835,8 +937,8 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   </div>
 </div>
 
-<!-- S12: DIGITAL MARS HILL -->
-<div class="slide">
+<!-- S12: DIGITAL MARS HILL (slide 14: fullscreen video on enter) -->
+<div class="slide" data-slide-video="YoS3hVnvSfM">
   <div class="slide-inner cream" style="position:relative">
     <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1400&auto=format&fit=crop&q=80') center/cover;opacity:0.05"></div>
     <div class="s-body top">
@@ -928,10 +1030,16 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
         <div class="stat-card anim fade-up d2" data-modal="touchpoints"><div class="s-num">12&ndash;15</div><div class="s-label">digital touch points now required before someone visits a church (up from 3&ndash;5)</div><div class="s-source">VisitorReach</div><div class="click-hint">CLICK</div></div>
         <div class="stat-card gold anim fade-up d3" data-modal="geo"><div class="s-num">GEO</div><div class="s-label">Generative Engine Optimization &mdash; if your website isn&rsquo;t AI-readable, seekers can&rsquo;t find you</div><div class="s-source">Missional Marketing</div><div class="click-hint">CLICK</div></div>
       </div>
-      <div class="callout anim fade-up d4">
+      <div class="anim fade-up d4" style="margin:0.5vh 0">
+        <button type="button" class="video-trigger light" data-video="NLKYQc1bbXE" style="cursor:pointer;border-radius:10px">
+          <span class="play-icon"><svg viewBox="0 0 24 24" width="10" height="10"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg></span>
+          <span>Watch: VisitorReach &mdash; What We Do (12&ndash;15 touchpoint reality) &middot; Kenny Jahng / NAE</span>
+        </button>
+      </div>
+      <div class="callout anim fade-up d5">
         <strong>People now ask ChatGPT:</strong> &ldquo;What&rsquo;s a good church for young families near me?&rdquo; If your website isn&rsquo;t structured for AI search engines, you&rsquo;re invisible to this growing segment of seekers.
       </div>
-      <div class="callout gold anim fade-up d5">
+      <div class="callout gold anim fade-up d6">
         <strong>Practical steps:</strong> Write FAQ sections, use clear image alt-text, list on trusted directories, ensure robots.txt doesn&rsquo;t block GPTBot and PerplexityBot.
       </div>
     </div>
@@ -1038,8 +1146,8 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
   </div>
 </div>
 
-<!-- S21: ONE SERMON → ONE WEEK (Visual Workflow) -->
-<div class="slide">
+<!-- S21: ONE SERMON → ONE WEEK (Visual Workflow) — slide 23: fullscreen video on enter, auto-close when ended -->
+<div class="slide" data-slide-video="DfUOX5c__jg">
   <div class="slide-inner cream">
     <div class="s-body top">
       <h2 class="s-title lg anim fade-up d1">One Sermon &rarr; One Week of <span class="gold">Content</span></h2>
@@ -1088,6 +1196,22 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
       </div>
     </div>
     <div class="s-footer"><span>Nathaniel Baldock</span><span>Sources: Churchfront; ChurchSocial.ai; Discipls.io</span></div>
+  </div>
+</div>
+
+<!-- New slide after 23: 5 AI church tools full examples (90% thumbnail, play on click) -->
+<div class="slide">
+  <div class="slide-inner cream video-hero-slide">
+    <div class="s-body top">
+      <h2 class="s-title lg anim fade-up d1" style="margin-bottom:1rem">5 AI Church Tools <span class="gold">Full Examples</span></h2>
+      <div class="video-hero-thumb anim fade-up d2" data-video="IaCU_y2b23U" role="button" tabindex="0" title="Click to play">
+        <img src="https://img.youtube.com/vi/IaCU_y2b23U/maxresdefault.jpg" alt="5 AI church tools full examples" loading="lazy" onerror="this.src='https://img.youtube.com/vi/IaCU_y2b23U/hqdefault.jpg'">
+        <span class="play-btn-center" aria-hidden="true">
+          <svg viewBox="0 0 68 48" width="28" height="28"><path fill="currentColor" d="M66 24c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h60c1.1 0 2 .9 2 2v20zm-32-6v12l10-6-10-6z"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="s-footer"><span>Nathaniel Baldock</span><span>Click the thumbnail to play</span></div>
   </div>
 </div>
 
@@ -1469,11 +1593,23 @@ const MD = {
 let cur = 0; const slides = document.querySelectorAll('.slide'); const total = slides.length; let trans = false; let started = false;
 function go(n) {
   if(trans||n<0||n>=total||n===cur) return; trans=true;
-  slides[cur].querySelectorAll('.anim.in').forEach(e=>e.classList.remove('in'));
-  slides[cur].classList.remove('active'); cur=n;
+  var prevSlide = slides[cur];
+  prevSlide.querySelectorAll('.anim.in').forEach(e=>e.classList.remove('in'));
+  if(prevSlide.contains(document.getElementById('chart-diminishing'))){
+    var dim=document.getElementById('chart-diminishing'), acc=document.getElementById('chart-acceleration');
+    if(dim){ dim.querySelectorAll('.chart-bar').forEach(b=>b.style.height='0%'); }
+    if(acc){ acc.querySelectorAll('.chart-bar-up').forEach(b=>b.style.height='0%'); }
+    dimAnimated=false; accAnimated=false;
+  }
+  prevSlide.classList.remove('active'); cur=n;
   slides[cur].classList.add('active');
   setTimeout(()=>{ slides[cur].querySelectorAll('.anim').forEach(e=>e.classList.add('in')); animCounts(slides[cur]); animCharts(slides[cur]); animChartsDimAcc(slides[cur]); },100);
-  updNav(); setTimeout(()=>{trans=false},600);
+  updNav();
+  var slideVideoId = slides[cur].dataset.slideVideo;
+  if (slideVideoId) {
+    setTimeout(function() { openSlideVideo(slideVideoId); }, 350);
+  }
+  setTimeout(()=>{trans=false},600);
 }
 function updNav() {
   document.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
@@ -1482,8 +1618,54 @@ function updNav() {
 }
 const navBar=document.getElementById('nav-bar');
 for(let i=0;i<total;i++){const d=document.createElement('button');d.className='nav-dot'+(i===0?' active':'');d.addEventListener('click',()=>go(i));navBar.appendChild(d);}
+var slideVideoPlayer = null;
+function openSlideVideo(videoId) {
+  var overlay = document.getElementById('slide-video-overlay');
+  overlay.classList.add('open');
+  var el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen().catch(function(){});
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  function createPlayer() {
+    var container = document.getElementById('slide-video-player');
+    if (slideVideoPlayer && slideVideoPlayer.destroy) { try { slideVideoPlayer.destroy(); } catch(e){} slideVideoPlayer = null; }
+    container.innerHTML = '';
+    slideVideoPlayer = new YT.Player('slide-video-player', {
+      videoId: videoId,
+      playerVars: { autoplay: 1, rel: 0 },
+      events: {
+        onStateChange: function(e) {
+          if (e.data === YT.PlayerState.ENDED) closeSlideVideo();
+        }
+      }
+    });
+  }
+  if (window.YT && window.YT.Player) {
+    createPlayer();
+  } else {
+    window.onYouTubeIframeAPIReady = function() {
+      createPlayer();
+    };
+    if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
+      var s = document.createElement('script');
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  }
+}
+function closeSlideVideo(){
+  var overlay = document.getElementById('slide-video-overlay');
+  if (slideVideoPlayer && slideVideoPlayer.destroy) { try { slideVideoPlayer.destroy(); } catch(e){} slideVideoPlayer = null; }
+  document.getElementById('slide-video-player').innerHTML = '';
+  overlay.classList.remove('open');
+  if (document.exitFullscreen) document.exitFullscreen();
+  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+}
+document.getElementById('slide-video-close').addEventListener('click', closeSlideVideo);
+document.getElementById('slide-video-overlay').addEventListener('click', function(e){ if (e.target === this) closeSlideVideo(); });
+
 document.addEventListener('keydown',e=>{
   if(!started)return;
+  if(document.getElementById('slide-video-overlay').classList.contains('open')){if(e.key==='Escape')closeSlideVideo();return;}
   if(document.getElementById('modal-overlay').classList.contains('open')){if(e.key==='Escape')closeModal();return;}
   if(document.getElementById('video-overlay').classList.contains('open')){if(e.key==='Escape')closeVideo();return;}
   if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}
@@ -1492,19 +1674,51 @@ document.addEventListener('keydown',e=>{
 document.getElementById('next-btn').addEventListener('click',()=>go(cur+1));
 document.getElementById('prev-btn').addEventListener('click',()=>go(cur-1));
 
-// ═══════ START ═══════
-document.getElementById('start-btn').addEventListener('click', startPres);
-document.getElementById('play-overlay').addEventListener('click', e=>{if(e.target===document.getElementById('play-overlay'))startPres()});
-function startPres(){
-  const el=document.documentElement;
-  if(el.requestFullscreen)el.requestFullscreen().catch(()=>{});
-  else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+// ═══════ INTRO VIDEO (play button → fullscreen video → skip → presentation) ═══════
+const INTRO_VIDEO_ID = '14qpG3jvBjs';
+const INTRO_EMBED = 'https://www.youtube.com/embed/' + INTRO_VIDEO_ID + '?autoplay=1&rel=0';
+let introSkipHideTimer = null;
+
+function playIntroVideo(){
   document.getElementById('play-overlay').classList.add('hidden');
+  var overlay = document.getElementById('intro-video-overlay');
+  var frame = document.getElementById('intro-video-frame');
+  frame.src = INTRO_EMBED;
+  overlay.classList.add('open');
+  overlay.classList.remove('skip-visible');
+  var el = document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen().catch(function(){});
+  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  setTimeout(function(){ overlay.classList.add('skip-visible'); setTimeout(function(){ overlay.classList.remove('skip-visible'); }, 2000); }, 400);
+  function showSkip(){
+    overlay.classList.add('skip-visible');
+    if(introSkipHideTimer) clearTimeout(introSkipHideTimer);
+    introSkipHideTimer = setTimeout(function(){ overlay.classList.remove('skip-visible'); introSkipHideTimer = null; }, 2500);
+  }
+  function onIntroDone(){
+    frame.src = '';
+    overlay.classList.remove('open');
+    overlay.classList.remove('skip-visible');
+    document.removeEventListener('mousemove', showSkip);
+    if(introSkipHideTimer){ clearTimeout(introSkipHideTimer); introSkipHideTimer = null; }
+    startPres();
+  }
+  document.addEventListener('mousemove', showSkip);
+  document.getElementById('intro-skip-btn').onclick = onIntroDone;
+}
+
+function startPres(){
+  document.getElementById('play-overlay').classList.add('hidden');
+  document.getElementById('intro-video-overlay').classList.remove('open');
+  document.getElementById('intro-video-frame').src = '';
   started=true;
   ['nav-bar','slide-counter','prev-btn','next-btn'].forEach(id=>document.getElementById(id).classList.add('visible'));
   setTimeout(()=>{slides[0].querySelectorAll('.anim').forEach(e=>e.classList.add('in'))},300);
   updNav();
 }
+
+document.getElementById('start-btn').addEventListener('click', playIntroVideo);
+document.getElementById('play-overlay').addEventListener('click', e=>{if(e.target===document.getElementById('play-overlay'))playIntroVideo()});
 
 // ═══════ CHARTS ═══════
 function animCharts(s){
@@ -1516,12 +1730,16 @@ function animChartsDimAcc(s){
   dimAnimated=false; accAnimated=false;
   dim.querySelectorAll('.chart-bar').forEach(b=>b.style.height='0%');
   acc.querySelectorAll('.chart-bar-up').forEach(b=>b.style.height='0%');
-  dim.querySelectorAll('.chart-bar').forEach(b=>b.style.height=b.dataset.h);
-  dimAnimated=true;
-  setTimeout(()=>{
-    acc.querySelectorAll('.chart-bar-up').forEach(b=>b.style.height=b.dataset.h);
-    accAnimated=true;
-  },2200);
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      dim.querySelectorAll('.chart-bar').forEach(b=>b.style.height=b.dataset.h);
+      dimAnimated=true;
+      setTimeout(()=>{
+        acc.querySelectorAll('.chart-bar-up').forEach(b=>b.style.height=b.dataset.h);
+        accAnimated=true;
+      },1400);
+    });
+  });
 }
 function animCounts(s){
   s.querySelectorAll('.count-up').forEach(el=>{
@@ -1573,7 +1791,8 @@ document.getElementById('chart-diminishing').addEventListener('click', function(
   if (!dimAnimated) {
     e.stopPropagation();
     this.querySelectorAll('.chart-bar').forEach(b => b.style.height = b.dataset.h);
-    this.querySelector('div[style*="CLICK CHART"]').textContent = 'CLICK AGAIN FOR DETAILS';
+    var hint = this.querySelector('.chart-hint');
+    if (hint) hint.textContent = 'CLICK AGAIN FOR DETAILS';
     dimAnimated = true;
   } else {
     openModal('vision2025_detail');
@@ -1583,7 +1802,8 @@ document.getElementById('chart-acceleration').addEventListener('click', function
   if (!accAnimated) {
     e.stopPropagation();
     this.querySelectorAll('.chart-bar-up').forEach(b => b.style.height = b.dataset.h);
-    this.querySelector('div[style*="CLICK CHART"]').textContent = 'CLICK AGAIN FOR DETAILS';
+    var hint = this.querySelector('.chart-hint');
+    if (hint) hint.textContent = 'CLICK AGAIN FOR DETAILS';
     accAnimated = true;
   } else {
     openModal('acceleration_detail');
