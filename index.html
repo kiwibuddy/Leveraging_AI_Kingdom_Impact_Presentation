@@ -337,6 +337,18 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 .video-card-large .video-card-summary { font-size: clamp(0.75rem, 1vw, 0.9rem); }
 @media (max-width:900px) { .bento-grid, .bento-grid-3 { grid-template-columns: 1fr; } }
 
+/* Front Door slide layout tune-up */
+.front-door-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1rem; align-items: stretch; margin: 0.8vh 0 0.5vh; }
+.front-door-left, .front-door-right { min-width: 0; }
+.front-door-stats { margin: 0; }
+.front-door-video { height: 100%; min-height: 240px; }
+.front-door-video .video-card-large { height: 100%; min-height: 240px; }
+.front-door-video .video-card-thumb { aspect-ratio: 16/9; }
+@media (max-width:900px) {
+  .front-door-grid { grid-template-columns: 1fr; }
+  .front-door-video, .front-door-video .video-card-large { min-height: 0; }
+}
+
 /* Video hero slide: 90% window thumbnail + centered play (play on click only) */
 .video-hero-slide .s-body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2vh 2vw; }
 .video-hero-thumb {
@@ -1078,12 +1090,20 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
       <div class="callout gold anim fade-up d8" style="font-size:0.85rem">
         <strong>The Curb Cut Effect:</strong> 70% of Gen Z and 53% of Millennials use closed captions regularly (Preply, 2022). Captions benefit ESL, hearing impaired, AND caption-reliant Gen Z &mdash; all in one unified service.
       </div>
-      <div class="anim fade-up d9" style="max-width:500px;margin:0 auto">
-        <div class="video-card stat-card anim fade-up d9" data-video="oxkEl72bybY">
-          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/oxkEl72bybY/hqdefault.jpg" alt="Boostlingo"></div>
+      <div class="anim fade-up d9" style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin:0.5vh 0">
+        <div class="video-card stat-card" data-video="oxkEl72bybY" style="flex:1;min-width:240px;max-width:400px">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/oxkEl72bybY/hqdefault.jpg" alt="Boostlingo" loading="lazy"></div>
           <div class="video-card-body">
             <div class="video-card-title">Live AI Church Translation Demo (Boostlingo)</div>
             <div class="video-card-summary">Real-time translation in 130+ languages for church services.</div>
+            <div class="click-hint">Click to play</div>
+          </div>
+        </div>
+        <div class="video-card stat-card" data-video="a_V9h4_R9K8" style="flex:1;min-width:240px;max-width:400px">
+          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/a_V9h4_R9K8/hqdefault.jpg" alt="AI Translation" loading="lazy"></div>
+          <div class="video-card-body">
+            <div class="video-card-title">AI Translation for Churches</div>
+            <div class="video-card-summary">Live translation demo &amp; setup overview.</div>
             <div class="click-hint">Click to play</div>
           </div>
         </div>
@@ -1657,8 +1677,6 @@ function closeSlideVideo(){
   if (slideVideoPlayer && slideVideoPlayer.destroy) { try { slideVideoPlayer.destroy(); } catch(e){} slideVideoPlayer = null; }
   document.getElementById('slide-video-player').innerHTML = '';
   overlay.classList.remove('open');
-  if (document.exitFullscreen) document.exitFullscreen();
-  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
 }
 document.getElementById('slide-video-close').addEventListener('click', closeSlideVideo);
 document.getElementById('slide-video-overlay').addEventListener('click', function(e){ if (e.target === this) closeSlideVideo(); });
