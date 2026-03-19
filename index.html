@@ -288,6 +288,9 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 
 /* ═══════ TOOL SHOWCASE GRID ═══════ */
 .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin: 2vh 0; flex: 1; min-height: 0; }
+.tool-grid-expand { gap: 1.5rem; margin: 2.5vh 0; }
+.tool-grid-expand .tool-card-img { height: 160px; }
+.tool-grid-expand .tool-card-body { padding: 1.3rem 1.4rem; }
 .tool-card {
   background: var(--white); border-radius: 12px; overflow: hidden;
   border: 1px solid rgba(0,0,0,0.05); cursor: pointer;
@@ -1303,16 +1306,6 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
           <div class="tool-card-body"><div class="tool-card-name">Glossa</div><div class="tool-card-desc">100+ languages &middot; $5/session &middot; No app needed &middot; Browser-based</div></div>
         </div>
       </div>
-      <!-- Video: Seed Company Bible Translation -->
-      <div class="anim fade-up d4" style="margin-top:0.5rem;max-width:320px;margin-left:auto;margin-right:auto">
-        <div class="video-card stat-card" data-video="VIMEO_1063711566">
-          <div class="video-card-thumb"><img src="https://vumbnail.com/1063711566.jpg" alt="Seed Company"></div>
-          <div class="video-card-body">
-            <div class="video-card-title">Bible Translation by the People (Seed Company)</div>
-            <div class="click-hint">Click to play</div>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="s-footer"><span>Nathaniel Baldock</span><span>Click any tool for details</span></div>
   </div>
@@ -1324,7 +1317,7 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
     <div class="s-body top">
       <div class="eyebrow anim fade-up d1">Tool Showcase</div>
       <h2 class="s-title lg anim fade-up d2">Sermon, Content &amp; <span class="gold">Admin</span> Tools</h2>
-      <div class="tool-grid anim fade-up d3">
+      <div class="tool-grid tool-grid-expand anim fade-up d3">
         <div class="tool-card" data-modal="agentiveaiq">
           <div class="tool-card-img"><img src="assets/agentiveaiq-ai-agents-platform.png" alt="AgentiveAIQ — AI agents platform" loading="lazy"></div>
           <div class="price-badge">$39/mo</div>
@@ -1354,16 +1347,6 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
           <div class="tool-card-img"><img src="assets/ministry-automation.png" alt="Ministry Automation — reclaim 20 hours" loading="lazy"></div>
           <div class="price-badge">$997/yr</div>
           <div class="tool-card-body"><div class="tool-card-name">Ministry Automation</div><div class="tool-card-desc">Pre-built AI agents &middot; 300+ churches &middot; Saves 15&ndash;20 hrs/week</div></div>
-        </div>
-      </div>
-      <!-- Video: Churchfront AI Tools -->
-      <div class="anim fade-up d4" style="margin-top:0.5rem;max-width:320px;margin-left:auto;margin-right:auto">
-        <div class="video-card stat-card" data-video="VRFxzO_BWkM">
-          <div class="video-card-thumb"><img src="https://img.youtube.com/vi/VRFxzO_BWkM/hqdefault.jpg" alt="Churchfront"></div>
-          <div class="video-card-body">
-            <div class="video-card-title">5 Game-Changing AI Tools for Churches (Churchfront)</div>
-            <div class="click-hint">Click to play</div>
-          </div>
         </div>
       </div>
     </div>
@@ -1501,20 +1484,20 @@ body { font-family: 'Source Serif 4', Georgia, serif; color: var(--txt); backgro
 <div class="slide">
   <div class="slide-inner dark">
     <div class="particles" id="close-particles"></div>
-    <div class="s-body centered">
+    <div class="s-body top" style="align-items:center">
       <div class="eyebrow anim fade-up d1">Your Next Steps</div>
       <h2 class="s-title xl anim fade-up d2" style="color:var(--white)">Call to <span class="shimmer-text">Action</span></h2>
       <div class="s-div anim fade-up d3" style="margin:0.8rem auto"></div>
-      <div class="insight-list anim fade-up d4" style="max-width:700px;text-align:left">
+      <div class="insight-list anim fade-up d4" style="max-width:700px;text-align:left;flex:none;margin:2vh auto 1.5rem;gap:1.2vh">
         <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num gold-bg">1</div><div><div class="insight-title" style="color:var(--white)">Draft your AI policy this week</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Set the boundaries before problems emerge.</div></div></div>
         <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num teal-bg">2</div><div><div class="insight-title" style="color:var(--white)">Test one tool</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Upload a past sermon into Tapos or AgentiveAIQ.</div></div></div>
         <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num">3</div><div><div class="insight-title" style="color:var(--white)">Invest reclaimed time in people</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">Not more busyness. Pastoral care, family, Sabbath.</div></div></div>
         <div class="insight-item" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.06)"><div class="insight-num warm-bg">4</div><div><div class="insight-title" style="color:var(--white)">Disciple your congregation on AI</div><div class="insight-body" style="color:rgba(255,255,255,0.45)">They&rsquo;re waiting for your guidance. Only 12% of pastors are leading here.</div></div></div>
       </div>
-      <div class="anim fade-up d6" style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--gold);font-style:italic;max-width:650px;margin-top:1.5rem;line-height:1.6">
+      <div class="anim fade-up d6" style="font-size:clamp(0.9rem,1.3vw,1.1rem);color:var(--gold);font-style:italic;max-width:650px;margin:2rem auto 0;line-height:1.6;flex-shrink:0">
         Perhaps the greatest gift AI will give the Church is a stark reminder that our ultimate calling is incarnation &mdash; being physical, empathetic, and truly present with one another in a way no machine ever could.
       </div>
-      <div class="anim fade-up d7" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.35);margin-top:1.5rem">
+      <div class="anim fade-up d7" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.35);margin-top:1.5rem;flex-shrink:0">
         nathanielbaldock.com &middot; Being Fully Human in an AI World
       </div>
     </div>
